@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="tabelasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cidade">
+          <Key>
+            <PropertyRef Name="IdCidade" />
+          </Key>
+          <Property Name="IdCidade" Type="int" Nullable="false" />
+          <Property Name="NomeCidade" Type="varchar" MaxLength="50" />
+          <Property Name="UF" Type="varchar" MaxLength="50" />
+          <Property Name="Pais" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EstadoCivil">
+          <Key>
+            <PropertyRef Name="IdEstadoCivil" />
+          </Key>
+          <Property Name="IdEstadoCivil" Type="int" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="IdPessoa" />
+          </Key>
+          <Property Name="IdPessoa" Type="int" Nullable="false" />
+          <Property Name="NomePessoa" Type="varchar" MaxLength="50" />
+          <Property Name="DtNasc" Type="date" />
+          <Property Name="IdCidade" Type="int" />
+          <Property Name="IdEstadoCivil" Type="int" />
+          <Property Name="IdTipoPessoa" Type="int" />
+        </EntityType>
+        <EntityType Name="TipoPessoa">
+          <Key>
+            <PropertyRef Name="IdTipoPessoa" />
+          </Key>
+          <Property Name="IdTipoPessoa" Type="int" Nullable="false" />
+          <Property Name="Descricao" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Titulo">
+          <Key>
+            <PropertyRef Name="IdTitulo" />
+          </Key>
+          <Property Name="IdTitulo" Type="int" Nullable="false" />
+          <Property Name="NumTit" Type="int" />
+          <Property Name="ValorTit" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="DataTit" Type="date" />
+          <Property Name="IdPessoa" Type="int" />
+        </EntityType>
+        <Association Name="FK_Pessoa_ToCidade">
+          <End Role="Cidade" Type="Self.Cidade" Multiplicity="0..1" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cidade">
+              <PropertyRef Name="IdCidade" />
+            </Principal>
+            <Dependent Role="Pessoa">
+              <PropertyRef Name="IdCidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pessoa_ToEstadoCivil">
+          <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="0..1" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoCivil">
+              <PropertyRef Name="IdEstadoCivil" />
+            </Principal>
+            <Dependent Role="Pessoa">
+              <PropertyRef Name="IdEstadoCivil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pessoa_ToTipoPessoa">
+          <End Role="TipoPessoa" Type="Self.TipoPessoa" Multiplicity="0..1" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoPessoa">
+              <PropertyRef Name="IdTipoPessoa" />
+            </Principal>
+            <Dependent Role="Pessoa">
+              <PropertyRef Name="IdTipoPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Titulo_ToPessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="0..1" />
+          <End Role="Titulo" Type="Self.Titulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="IdPessoa" />
+            </Principal>
+            <Dependent Role="Titulo">
+              <PropertyRef Name="IdPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tabelasModelStoreContainer">
+          <EntitySet Name="Cidade" EntityType="Self.Cidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoCivil" EntityType="Self.EstadoCivil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoPessoa" EntityType="Self.TipoPessoa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Titulo" EntityType="Self.Titulo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Pessoa_ToCidade" Association="Self.FK_Pessoa_ToCidade">
+            <End Role="Cidade" EntitySet="Cidade" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pessoa_ToEstadoCivil" Association="Self.FK_Pessoa_ToEstadoCivil">
+            <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pessoa_ToTipoPessoa" Association="Self.FK_Pessoa_ToTipoPessoa">
+            <End Role="TipoPessoa" EntitySet="TipoPessoa" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Titulo_ToPessoa" Association="Self.FK_Titulo_ToPessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Titulo" EntitySet="Titulo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="tabelasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cidade">
+          <Key>
+            <PropertyRef Name="IdCidade" />
+          </Key>
+          <Property Name="IdCidade" Type="Int32" Nullable="false" />
+          <Property Name="NomeCidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pais" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.FK_Pessoa_ToCidade" FromRole="Cidade" ToRole="Pessoa" />
+        </EntityType>
+        <EntityType Name="EstadoCivil">
+          <Key>
+            <PropertyRef Name="IdEstadoCivil" />
+          </Key>
+          <Property Name="IdEstadoCivil" Type="Int32" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.FK_Pessoa_ToEstadoCivil" FromRole="EstadoCivil" ToRole="Pessoa" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="IdPessoa" />
+          </Key>
+          <Property Name="IdPessoa" Type="Int32" Nullable="false" />
+          <Property Name="NomePessoa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DtNasc" Type="DateTime" Precision="0" />
+          <Property Name="IdCidade" Type="Int32" />
+          <Property Name="IdEstadoCivil" Type="Int32" />
+          <Property Name="IdTipoPessoa" Type="Int32" />
+          <NavigationProperty Name="Cidade" Relationship="Self.FK_Pessoa_ToCidade" FromRole="Pessoa" ToRole="Cidade" />
+          <NavigationProperty Name="EstadoCivil" Relationship="Self.FK_Pessoa_ToEstadoCivil" FromRole="Pessoa" ToRole="EstadoCivil" />
+          <NavigationProperty Name="TipoPessoa" Relationship="Self.FK_Pessoa_ToTipoPessoa" FromRole="Pessoa" ToRole="TipoPessoa" />
+          <NavigationProperty Name="Titulo" Relationship="Self.FK_Titulo_ToPessoa" FromRole="Pessoa" ToRole="Titulo" />
+        </EntityType>
+        <EntityType Name="TipoPessoa">
+          <Key>
+            <PropertyRef Name="IdTipoPessoa" />
+          </Key>
+          <Property Name="IdTipoPessoa" Type="Int32" Nullable="false" />
+          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.FK_Pessoa_ToTipoPessoa" FromRole="TipoPessoa" ToRole="Pessoa" />
+        </EntityType>
+        <EntityType Name="Titulo">
+          <Key>
+            <PropertyRef Name="IdTitulo" />
+          </Key>
+          <Property Name="IdTitulo" Type="Int32" Nullable="false" />
+          <Property Name="NumTit" Type="Int32" />
+          <Property Name="ValorTit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DataTit" Type="DateTime" Precision="0" />
+          <Property Name="IdPessoa" Type="Int32" />
+          <NavigationProperty Name="Pessoa" Relationship="Self.FK_Titulo_ToPessoa" FromRole="Titulo" ToRole="Pessoa" />
+        </EntityType>
+        <Association Name="FK_Pessoa_ToCidade">
+          <End Role="Cidade" Type="Self.Cidade" Multiplicity="0..1" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cidade">
+              <PropertyRef Name="IdCidade" />
+            </Principal>
+            <Dependent Role="Pessoa">
+              <PropertyRef Name="IdCidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pessoa_ToEstadoCivil">
+          <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="0..1" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoCivil">
+              <PropertyRef Name="IdEstadoCivil" />
+            </Principal>
+            <Dependent Role="Pessoa">
+              <PropertyRef Name="IdEstadoCivil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pessoa_ToTipoPessoa">
+          <End Role="TipoPessoa" Type="Self.TipoPessoa" Multiplicity="0..1" />
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoPessoa">
+              <PropertyRef Name="IdTipoPessoa" />
+            </Principal>
+            <Dependent Role="Pessoa">
+              <PropertyRef Name="IdTipoPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Titulo_ToPessoa">
+          <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="0..1" />
+          <End Role="Titulo" Type="Self.Titulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoa">
+              <PropertyRef Name="IdPessoa" />
+            </Principal>
+            <Dependent Role="Titulo">
+              <PropertyRef Name="IdPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tabelasEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cidade" EntityType="Self.Cidade" />
+          <EntitySet Name="EstadoCivil" EntityType="Self.EstadoCivil" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" />
+          <EntitySet Name="TipoPessoa" EntityType="Self.TipoPessoa" />
+          <EntitySet Name="Titulo" EntityType="Self.Titulo" />
+          <AssociationSet Name="FK_Pessoa_ToCidade" Association="Self.FK_Pessoa_ToCidade">
+            <End Role="Cidade" EntitySet="Cidade" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pessoa_ToEstadoCivil" Association="Self.FK_Pessoa_ToEstadoCivil">
+            <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pessoa_ToTipoPessoa" Association="Self.FK_Pessoa_ToTipoPessoa">
+            <End Role="TipoPessoa" EntitySet="TipoPessoa" />
+            <End Role="Pessoa" EntitySet="Pessoa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Titulo_ToPessoa" Association="Self.FK_Titulo_ToPessoa">
+            <End Role="Pessoa" EntitySet="Pessoa" />
+            <End Role="Titulo" EntitySet="Titulo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="tabelasModelStoreContainer" CdmEntityContainer="tabelasEntities1">
+          <EntitySetMapping Name="Cidade">
+            <EntityTypeMapping TypeName="tabelasModel.Cidade">
+              <MappingFragment StoreEntitySet="Cidade">
+                <ScalarProperty Name="IdCidade" ColumnName="IdCidade" />
+                <ScalarProperty Name="NomeCidade" ColumnName="NomeCidade" />
+                <ScalarProperty Name="UF" ColumnName="UF" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoCivil">
+            <EntityTypeMapping TypeName="tabelasModel.EstadoCivil">
+              <MappingFragment StoreEntitySet="EstadoCivil">
+                <ScalarProperty Name="IdEstadoCivil" ColumnName="IdEstadoCivil" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pessoa">
+            <EntityTypeMapping TypeName="tabelasModel.Pessoa">
+              <MappingFragment StoreEntitySet="Pessoa">
+                <ScalarProperty Name="IdPessoa" ColumnName="IdPessoa" />
+                <ScalarProperty Name="NomePessoa" ColumnName="NomePessoa" />
+                <ScalarProperty Name="DtNasc" ColumnName="DtNasc" />
+                <ScalarProperty Name="IdCidade" ColumnName="IdCidade" />
+                <ScalarProperty Name="IdEstadoCivil" ColumnName="IdEstadoCivil" />
+                <ScalarProperty Name="IdTipoPessoa" ColumnName="IdTipoPessoa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoPessoa">
+            <EntityTypeMapping TypeName="tabelasModel.TipoPessoa">
+              <MappingFragment StoreEntitySet="TipoPessoa">
+                <ScalarProperty Name="IdTipoPessoa" ColumnName="IdTipoPessoa" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Titulo">
+            <EntityTypeMapping TypeName="tabelasModel.Titulo">
+              <MappingFragment StoreEntitySet="Titulo">
+                <ScalarProperty Name="IdTitulo" ColumnName="IdTitulo" />
+                <ScalarProperty Name="NumTit" ColumnName="NumTit" />
+                <ScalarProperty Name="ValorTit" ColumnName="ValorTit" />
+                <ScalarProperty Name="DataTit" ColumnName="DataTit" />
+                <ScalarProperty Name="IdPessoa" ColumnName="IdPessoa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
